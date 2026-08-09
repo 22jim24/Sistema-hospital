@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas - Panel Médico | Médicu CI</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0fdfa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px 20px;
+            color: #1e293b;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header-panel {
+            background-color: #ffffff;
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.08);
+            border: 1px solid #ccfbf1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h2 {
+            color: #0f766e;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 9px 16px;
+            border-radius: 8px;
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-logout:hover {
+            background-color: #dc2626;
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Layout con Grid para el contenido principal y el apartado derecho */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.08);
+            border: 1px solid #ccfbf1;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Apartado de la derecha con métricas de estados */
+        .sidebar-panel {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.08);
+            border: 1px solid #ccfbf1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f766e;
+            border-bottom: 2px solid #f0fdfa;
+            padding-bottom: 8px;
+            margin-bottom: 5px;
+        }
+
+        .stat-box {
+            background-color: #f0fdfa;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #ccfbf1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-box span {
+            font-size: 13px;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .stat-box strong {
+            font-size: 18px;
+            color: #0d9488;
+        }
+
+        .sidebar-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #f0fdfa;
+            border: 1.5px solid #0d9488;
+            border-radius: 8px;
+            color: #0d9488;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 5px;
+        }
+
+        .sidebar-btn:hover {
+            background-color: #0d9488;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-wrapper {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: #f0fdfa;
+            color: #0f766e;
+            font-weight: 600;
+            border-bottom: 1px solid #ccfbf1;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background-color 0.15s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .select-estado {
+            padding: 8px 10px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 13px;
+            background-color: #fff;
+            outline: none;
+            color: #334155;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .select-estado:focus {
+            border-color: #0d9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+        }
+
+        .btn-actualizar {
+            padding: 8px 14px;
+            background-color: #0d9488;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 6px;
+            box-shadow: 0 2px 5px rgba(13, 148, 136, 0.2);
+        }
+
+        .btn-actualizar:hover {
+            background-color: #0f766e;
+            transform: translateY(-1px);
+        }
+
+        .btn-actualizar:active {
+            transform: scale(0.98);
+        }
+
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .message.error {
+            color: #dc2626;
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+        }
+
+        .message.success {
+            color: #059669;
+            background-color: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="header-panel">
+        <h2 id="bienvenidaMedico">Panel del Médico - Mis Citas</h2>
+        <button class="btn-logout" onclick="cerrarSesion()">
+            <span>/</span> Cerrar Sesión
+        </button>
+    </div>
+
+    <div class="content-grid">
+        <div class="container">
+            <h3 style="color: #0f766e; font-size: 16px; margin-bottom: 10px;">Listado de Citas Asignadas</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha y Hora</th>
+                        <th>Sede</th>
+                        <th>Paciente</th>
+                        <th>Estado Actual</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tablaCitasMedicoBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #64748b; padding: 25px;">Cargando citas...</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="panelMessage" class="message"></div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="sidebar-title">Resumen de Citas</div>
+
+            <div class="stat-box">
+                <span>Confirmadas</span>
+                <strong id="countConfirmadas">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>En Espera</span>
+                <strong id="countEsperando">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>Completadas</span>
+                <strong id="countCompletadas">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>Canceladas</span>
+                <strong id="countCanceladas">0</strong>
+            </div>
+
+            <button class="sidebar-btn" onclick="window.location.reload()">Refrescar Lista</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let listaCitasMedicoGlobal = [];
+
+    document.addEventListener("DOMContentLoaded", function() {
+        validarSesionMedico();
+    });
+
+    function obtenerHeaders() {
+        const usuarioLogueadoStr = localStorage.getItem('usuarioLogueado');
+        console.log("Objeto crudo en localStorage:", usuarioLogueadoStr);
+
+        const usuarioLogueado = JSON.parse(usuarioLogueadoStr);
+        console.log("Objeto parseado completo:", usuarioLogueado);
+
+        const token = usuarioLogueado ? (usuarioLogueado.token || usuarioLogueado.accessToken || usuarioLogueado.jwt) : '';
+
+        console.log("Token final detectado:", token);
+
+        return {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+    }
+
+    function validarSesionMedico() {
+        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+
+        if (!usuarioLogueado) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        document.getElementById('bienvenidaMedico').textContent = `Panel de Citas - Dr(a). ${usuarioLogueado.email}`;
+
+        cargarCitasDelUsuarioMedico(usuarioLogueado.idUsuario);
+    }
+
+    function cargarCitasDelUsuarioMedico(idUsuario) {
+        fetch(`http://localhost:8080/cita/usuario-medico/${idUsuario}`, {
+            headers: obtenerHeaders()
+        })
+            .then(res => res.json())
+            .then(data => {
+                listaCitasMedicoGlobal = Array.isArray(data) ? data : [];
+
+                let confirmadas = 0;
+                let esperando = 0;
+                let completadas = 0;
+                let canceladas = 0;
+
+                listaCitasMedicoGlobal.forEach(cita => {
+                    if (cita.estadoCita === "CONFIRMADA" || cita.estadoCita === 1) confirmadas++;
+                    else if (cita.estadoCita === "ESPERANDO" || cita.estadoCita === 0) esperando++;
+                    else if (cita.estadoCita === "COMPLETADA" || cita.estadoCita === 3) completadas++;
+                    else if (cita.estadoCita === "CANCELADA" || cita.estadoCita === 2) canceladas++;
+                });
+
+                document.getElementById('countConfirmadas').textContent = confirmadas;
+                document.getElementById('countEsperando').textContent = esperando;
+                document.getElementById('countCompletadas').textContent = completadas;
+                document.getElementById('countCanceladas').textContent = canceladas;
+
+                const tbody = document.getElementById('tablaCitasMedicoBody');
+                tbody.innerHTML = '';
+
+                if (listaCitasMedicoGlobal.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 25px;">No tienes citas asignadas actualmente.</td></tr>';
+                    return;
+                }
+
+                const pacientesAConsultar = new Set();
+
+                listaCitasMedicoGlobal.forEach(cita => {
+                    const nombreSede = cita.sede ? cita.sede.nombreSede : 'N/A';
+                    let nombrePaciente = 'N/A';
+                    let idPacienteParaHtml = '';
+
+                    if (cita.paciente) {
+                        nombrePaciente = `${cita.paciente.nombre} ${cita.paciente.apellido}`;
+                        idPacienteParaHtml = cita.paciente.idPaciente;
+                        pacientesAConsultar.add(idPacienteParaHtml);
+                    }
+
+                    tbody.innerHTML += `
+                    <tr>
+                        <td style="font-weight: 600; color: #0f766e;">#${cita.idCita}</td>
+                        <td>${cita.fechaHora}</td>
+                        <td><span style="background: #f0fdfa; color: #0d9488; padding: 4px 8px; border-radius: 4px; font-weight: 500; font-size: 12px; border: 1px solid #ccfbf1;">${nombreSede}</span></td>
+                        <td>
+                            <div style="font-weight: 600; color: #1e293b;">${nombrePaciente}</div>
+                            <div class="historial-container-${idPacienteParaHtml}" style="margin-top: 4px;">
+                                <span style="font-size: 11px; color: #94a3b8;">Buscando historial...</span>
+                            </div>
+                        </td>
+                        <td>
+                            <select id="estado-${cita.idCita}" class="select-estado">
+                                <option value="0" ${cita.estadoCita === "ESPERANDO" || cita.estadoCita === 0 ? 'selected' : ''}>ESPERANDO</option>
+                                <option value="1" ${cita.estadoCita === "CONFIRMADA" || cita.estadoCita === 1 ? 'selected' : ''}>CONFIRMADA</option>
+                                <option value="2" ${cita.estadoCita === "CANCELADA" || cita.estadoCita === 2 ? 'selected' : ''}>CANCELADA</option>
+                                <option value="3" ${cita.estadoCita === "COMPLETADA" || cita.estadoCita === 3 ? 'selected' : ''}>COMPLETADA</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn-actualizar" onclick="actualizarEstadoCita(${cita.idCita})">Actualizar</button>
+                        </td>
+                    </tr>
+                `;
+                });
+
+                pacientesAConsultar.forEach(idPaciente => {
+                    if(idPaciente) cargarHistorialPDF(idPaciente);
+                });
+            })
+            .catch(err => {
+                console.error("Error al cargar las citas:", err);
+                document.getElementById('tablaCitasMedicoBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: #dc2626; padding: 25px;">Error al obtener las citas del servidor.</td></tr>';
+            });
+    }
+
+    function cargarHistorialPDF(idPaciente) {
+        fetch(`http://localhost:8080/historial/paciente/${idPaciente}`, {
+            headers: obtenerHeaders()
+        })
+            .then(res => res.text())
+            .then(text => {
+                const historial = text ? JSON.parse(text) : null;
+                const contenedores = document.querySelectorAll(`.historial-container-${idPaciente}`);
+
+                contenedores.forEach(contenedor => {
+                    if (historial && historial.archivoPdf) {
+                        contenedor.innerHTML = `<a href="${historial.archivoPdf}" target="_blank" style="font-size: 11px; color: #0d9488; text-decoration: underline; font-weight: bold;">Ver Historial</a>`;
+                    } else {
+                        contenedor.innerHTML = `<span style="font-size: 11px; color: #94a3b8;">Sin historial PDF registrado</span>`;
+                    }
+                });
+            })
+            .catch(err => {
+                console.error(`Error buscando historial del paciente ${idPaciente}:`, err);
+                const contenedores = document.querySelectorAll(`.historial-container-${idPaciente}`);
+                contenedores.forEach(contenedor => {
+                    contenedor.innerHTML = `<span style="font-size: 11px; color: #dc2626;">Error al cargar PDF</span>`;
+                });
+            });
+    }
+
+    function actualizarEstadoCita(idCita) {
+        const nuevoEstado = parseInt(document.getElementById(`estado-${idCita}`).value);
+        const messageDiv = document.getElementById('panelMessage');
+        const citaEncontrada = listaCitasMedicoGlobal.find(c => c.idCita === idCita);
+
+        if (!citaEncontrada) {
+            messageDiv.textContent = "Error: No se encontró la información local de la cita.";
+            messageDiv.className = "message error";
+            return;
+        }
+
+        const datosActualizacion = {
+            idCita: citaEncontrada.idCita,
+            estadoCita: nuevoEstado
+        };
+
+        fetch('http://localhost:8080/cita', {
+            method: 'PUT',
+            headers: obtenerHeaders(),
+            body: JSON.stringify(datosActualizacion)
+        })
+            .then(async response => {
+                if (response.ok) {
+                    messageDiv.textContent = `¡Estado de la cita #${idCita} actualizado correctamente!`;
+                    messageDiv.className = "message success";
+                    setTimeout(() => messageDiv.textContent = "", 3000);
+                    setTimeout(() => {
+                        const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+                        if(usuarioLogueado) cargarCitasDelUsuarioMedico(usuarioLogueado.idUsuario);
+                    }, 1000);
+                } else {
+                    const errorText = await response.text();
+                    console.error("Respuesta del servidor:", errorText);
+                    messageDiv.textContent = "Error al actualizar el estado de la cita en el servidor.";
+                    messageDiv.className = "message error";
+                }
+            })
+            .catch(error => {
+                console.error("Error en la petición PUT:", error);
+                messageDiv.textContent = "No se pudo conectar con el servidor.";
+                messageDiv.className = "message error";
+            });
+    }
+
+    function cerrarSesion() {
+        localStorage.removeItem('usuarioLogueado');
+        window.location.href = "login.html";
+    }
+</script>
+</body>
+</html>
