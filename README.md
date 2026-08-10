@@ -25,6 +25,9 @@ La aplicación permite registrar, listar, buscar, actualizar y eliminar informac
 ## Estructura del Proyecto
 El proyecto se encuentra organizado bajo el paquete `com.pe.idat.sistema.clinica.sitema_clinica`:
 
+El proyecto se encuentra organizado bajo el paquete `com.pe.idat.sistema.clinica.sitema_clinica`:
+
+```text
 src/
 ├── main/
 │   ├── java/com/pe/idat/sistema/clinica/sitema_clinica/
