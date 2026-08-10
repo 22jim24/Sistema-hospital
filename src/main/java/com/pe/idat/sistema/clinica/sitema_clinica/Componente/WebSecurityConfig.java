@@ -42,7 +42,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/medico/**").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .requestMatchers(HttpMethod.PUT, "/cita").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .requestMatchers("/cita/**").hasAuthority("ROLE_ACTIVO_MEDICO")
-                        .requestMatchers("/usuario/**").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider.getJwtSecret()), UsernamePasswordAuthenticationFilter.class);
