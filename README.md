@@ -1,47 +1,33 @@
 
 
 <p align="center">
-  <img
-    src="./imagenes/presentacion.png.png"
-    alt="Imagen de presentación del Sistema de Facturación"
-    width="300">
-</p>
-
-<p align="center">
-
-  <a href="https://www.java.com/" target="_blank">
-    <img
-      src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo.png"
-      alt="Java 17"
-      width="70">
-  </a>
-
-  &nbsp;&nbsp;&nbsp;
-
-  <a href="https://spring.io/projects/spring-boot" target="_blank">
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/960px-Spring_Framework_Logo_2018.svg.png"
-      alt="Spring Boot"
-      width="120">
-  </a>
-
-  &nbsp;&nbsp;&nbsp;
-
-  <a href="https://www.mysql.com/" target="_blank">
-    <img
-      src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
-      alt="MySQL"
-      width="70">
-  </a>
-
-  &nbsp;&nbsp;&nbsp;
-
-  <a href="https://www.postman.com/" target="_blank">
-    <img
-      src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg"
-      alt="Postman"
-      width="70">
-  </a>
+    <a href="https://www.java.com/" target="_blank">
+      <img
+        src="https://1000logos.net/wp-content/uploads/2020/09/Java-Logo.png"
+        alt="Java 17"
+        width="70">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="https://spring.io/projects/spring-boot" target="_blank">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Spring_Framework_Logo_2018.svg/960px-Spring_Framework_Logo_2018.svg.png"
+        alt="Spring Boot"
+        width="120">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="https://www.mysql.com/" target="_blank">
+      <img
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+        alt="MySQL"
+        width="70">
+    </a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="https://www.postman.com/" target="_blank">
+      <img
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg"
+        alt="Postman"
+        width="70">
+    </a>
 
 </p>
 
