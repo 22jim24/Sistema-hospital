@@ -78,7 +78,7 @@ src/
 │   │   │   ├── Turno.java
 │   │   │   └── Usuario.java
 │   │   └── SitemaClinicaApplication.java
-
+```
 Funciones Principales por Módulo
 Citas: Programación, listado, búsqueda por ID, actualización y cancelación/anulación de citas médicas.
 
@@ -161,6 +161,10 @@ spring.datasource.password=tu_contraseña
 | Cita | GET | `/cita/usuario-medico/{idUsuario}` | Buscar citas por ID de usuario médico |
 | Cita | GET | `/cita/paciente/{idPaciente}` | Buscar citas por ID de paciente |
 | Cita | DELETE | `/cita/{id}` | Eliminar/Cancelar una cita por ID |
+
+
+
+
 
 
 ### En Windows
