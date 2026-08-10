@@ -36,8 +36,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/especialidad/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
                         .requestMatchers(HttpMethod.GET, "/turno/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
                         .requestMatchers(HttpMethod.GET, "/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
-                        .requestMatchers(HttpMethod.GET, "/medico/**").hasAuthority("ROLE_ACTIVO_PACIENTE") // <-- AGREGAR ESTA
-                        .requestMatchers(HttpMethod.GET, "/cita/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE") // <-- AGREGAR ESTA
+                        .requestMatchers(HttpMethod.GET, "/medico/**").hasAuthority("ROLE_ACTIVO_PACIENTE") 
+                        .requestMatchers(HttpMethod.GET, "/cita/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE") 
                         .requestMatchers(HttpMethod.POST, "/cita").hasAuthority("ROLE_ACTIVO_PACIENTE")
 
                         .requestMatchers("/historial/**").hasAuthority("ROLE_ACTIVO_MEDICO")
