@@ -27,6 +27,8 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/usuario").permitAll()
 
@@ -34,14 +36,15 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/especialidad/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
                         .requestMatchers(HttpMethod.GET, "/turno/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
                         .requestMatchers(HttpMethod.GET, "/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
-                        .requestMatchers(HttpMethod.GET, "/medico/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
-                        .requestMatchers(HttpMethod.GET, "/cita/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE")
+                        .requestMatchers(HttpMethod.GET, "/medico/**").hasAuthority("ROLE_ACTIVO_PACIENTE") // <-- AGREGAR ESTA
+                        .requestMatchers(HttpMethod.GET, "/cita/paciente/**").hasAuthority("ROLE_ACTIVO_PACIENTE") // <-- AGREGAR ESTA
                         .requestMatchers(HttpMethod.POST, "/cita").hasAuthority("ROLE_ACTIVO_PACIENTE")
 
                         .requestMatchers("/historial/**").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .requestMatchers("/medico/**").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .requestMatchers(HttpMethod.PUT, "/cita").hasAuthority("ROLE_ACTIVO_MEDICO")
                         .requestMatchers("/cita/**").hasAuthority("ROLE_ACTIVO_MEDICO")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider.getJwtSecret()), UsernamePasswordAuthenticationFilter.class);
